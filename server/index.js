@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-require('dotenv').config(); // Loads .env file
+const dotenv = require('dotenv');
+dotenv.config(); // Load .env file
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 .catch((err) => console.error(err));
 
 // Routes
-const flowerRoutes = require('./routes/flowers');
+const flowerRoutes = require('./routes/flowers'); // Adjusted to relative path
 app.use('/api/flowers', flowerRoutes);
 
 // Test route
@@ -27,7 +28,20 @@ app.get('/', (req, res) => {
   res.send('Bloombuilder API is running 🌸');
 });
 
-// Start server
+// ✅ Error-handling middleware — make sure this is before app.listen
+app.use((err, req, res, next) => {
+  console.error('--- ERROR HANDLER HIT ---');
+  console.error(err.name);
+  console.error(err.message);
+
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({ error: err.message });
+  }
+
+  res.status(500).json({ error: 'Internal server error' });
+});
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
