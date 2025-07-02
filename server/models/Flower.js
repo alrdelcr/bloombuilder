@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const FlowerSchema = new mongoose.Schema({
-  name: String,       // e.g., "Rose"
-  type: String,       // e.g., "focal", "filler", "foliage"
-  color: String,      // e.g., "red"
-  price: Number,      // price per stem
-  quantity: Number,   // how many you have in stock
-  imageUrl: String    // optional image link
+  name: { type: String, required: true },      // ✅ This triggers validation error
+  type: String,
+  color: String,
+  price: { type: Number, required: true, min: [0, 'Price cannot be negative'] },
+  quantity: { type: Number, required: true, min: [0, 'Quantity cannot be negative']},
+  imageUrl: String
 });
 
-module.exports = mongoose.model('Flower', FlowerSchema);
+const Flower = mongoose.model('Flower', FlowerSchema);
+module.exports = Flower;
