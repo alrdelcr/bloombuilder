@@ -1,0 +1,29 @@
+# Node modules (big and unnecessary to track)
+node_modules/
+
+# Environment variables (secrets like DB URIs, API keys)
+.env
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Testing outputs
+coverage/
+jest-cache/
+jest-output/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VSCode settings (optional, only if you don't want to share them)
+.vscode/
+
+# Optional: local config files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
