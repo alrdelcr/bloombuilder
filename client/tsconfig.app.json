@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    // Store TS incremental build info
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+
+    // Target modern JS
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+
+    // Enable modern class field behavior
+    "useDefineForClassFields": true,
+
+    // Resolve modules using bundler rules (for Vite)
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+
+    // Don't emit compiled JS
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    // Improve type safety
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+    "erasableSyntaxOnly": true,
+
+    // Skip checking type declarations in node_modules
+    "skipLibCheck": true,
+
+    // ✅ Alias for "@/..." imports
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src"]
+}
