@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input'; // Ensure this exists
+import { Input } from '@/components/ui/input';
+import { X } from 'lucide-react'; // Optional: for an 'X' icon
 
 interface Flower {
   _id: string;
@@ -29,7 +30,6 @@ export default function FlowerInventoryPage() {
     const fetchFlowers = async () => {
       try {
         const res = await axios.get<Flower[]>('/api/flowers');
-        console.log(res.data)
         setFlowers(res.data);
       } catch (err) {
         console.error('Failed to fetch flowers:', err);
@@ -56,6 +56,15 @@ export default function FlowerInventoryPage() {
     }
   };
 
+  const handleDeleteFlower = async (id: string) => {
+    try {
+      await axios.delete(`/api/flowers/${id}`);
+      setFlowers((prev) => prev.filter((flower) => flower._id !== id));
+    } catch (err) {
+      console.error('Error deleting flower:', err);
+    }
+  };
+
   return (
     <div className="p-4">
       {/* Add Flower Form */}
@@ -75,7 +84,14 @@ export default function FlowerInventoryPage() {
       {/* Flower Inventory Display */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {flowers.map((flower) => (
-          <Card key={flower._id} className="rounded-2xl shadow-md">
+          <Card key={flower._id} className="relative rounded-2xl shadow-md">
+            <Button
+              variant="ghost"
+              className="absolute top-2 right-2 text-red-500"
+              onClick={() => handleDeleteFlower(flower._id)}
+            >
+              <X className="w-4 h-4" />
+            </Button>
             <CardContent className="p-4">
               {flower.imageUrl && (
                 <img
